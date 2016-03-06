@@ -6,22 +6,48 @@
   </head>
   <body>
     <script>
+      function prettyifyDate(date) {
+        var month = date.getMonth().toString();
+        var day = date.getDate().toString();
+        var year = date.getFullYear().toString();
+        var hours = date.getHours().toString();
+        var minutes = date.getMinutes().toString();
+        return month + '/' + day + ' ' + year + ' at ' + hours + ':' + minutes; 
+      }
+
+      function jQueryfyTweet(tweet) {
+          var $tweet = $('<div></div>');
+          $tweet.text('@' + tweet.user + ': ' + tweet.message + ' ' + prettyifyDate(tweet.created_at));
+          return $tweet;
+      }
 
       $(document).ready(function(){
         var $body = $('body');
-        $body.html('');
-
-        var index = streams.home.length - 1;
+        $body.html(''); // sets the html of the body to an empty string
+        
+        var index = streams.home.length - 1; //setting up movement in reverse chronological order
         while(index >= 0){
           var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
+          var $tweet = jQueryfyTweet(tweet);
           $tweet.appendTo($body);
           index -= 1;
         }
+      
+        var storedLatestTweet = streams.home[streams.home.length - 1]
+        var checkForNewTweet = function() {
+          var currentLatestTweet = streams.home[streams.home.length - 1]
+          if (storedLatestTweet != currentLatestTweet){
+            $currentLatestTweet = jQueryfyTweet(currentLatestTweet);
+            $currentLatestTweet.prependTo($body);
+            storedLatestTweet = currentLatestTweet;
+          }
+          setTimeout(checkForNewTweet,100);
+        }
+        setTimeout(checkForNewTweet,100);
 
-      });
-
+        // maybe see what the last tweet was, check every x milliseconds for a new one
+        // if there's a new one, put it on the board, set the new one as the current one, and go back to checking
+      })
     </script>
   </body>
 </html>
