@@ -3,6 +3,7 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <link href="main.css" rel="stylesheet">
   </head>
   <body>
     <script>
@@ -43,10 +44,9 @@
           }
           setTimeout(checkForNewTweet,100);
         }
-        setTimeout(checkForNewTweet,100);
-
-        // maybe see what the last tweet was, check every x milliseconds for a new one
-        // if there's a new one, put it on the board, set the new one as the current one, and go back to checking
+        setTimeout(checkForNewTweet,100); 
+        // I should have just called the function to add the new tweet  in the other file 
+        //every time a new tweet is generated; not sure why I didn't just do that
       })
     </script>
   </body>
