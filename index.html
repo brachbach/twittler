@@ -6,6 +6,7 @@
     <link href="main.css" rel="stylesheet">
   </head>
   <body>
+    <h1>Twittler</h1>
     <script>
       function prettyifyDate(date) {
         var month = date.getMonth().toString();
@@ -17,9 +18,10 @@
       }
 
       function jQueryfyTweet(tweet) {
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message + ' ' + prettyifyDate(tweet.created_at));
-          return $tweet;
+          var user = ('@' + tweet.user + ': ') //the list of other tweets to be hidden will also go here
+          var date = prettyifyDate(tweet.created_at)
+          var tweet = '<section><h2>' + user + '</h2><p>' + tweet.message + '</p><h4>' + date + '</h4></section>';
+          return $(tweet);
       }
 
       $(document).ready(function(){
