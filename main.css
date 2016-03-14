@@ -76,3 +76,8 @@ h4 {
   color: gray;
 }
 
+ul {
+  border: 2px solid gray;
+  border-radius: 5px;
+}
+
