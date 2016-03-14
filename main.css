@@ -62,10 +62,6 @@ section {
   padding: 7px;
 }
 
-ul {
-  display: none;
-}
-
 h2,p,h4 {
   display: inline-block;
   padding-right: 0.5em;

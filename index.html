@@ -17,7 +17,7 @@
         return month + '/' + day + ' ' + year + ' at ' + hours + ':' + minutes; 
       }
 
-      //returns a string of the user's timeline to be passed into formatTweet for inclusion in the tweet
+      //returns the user's timeline to be displayed
       function formatUserTweets(username) {
         var userTweetsArray = streams.users[username];
         var tweets = userTweetsArray.reduce(function(accumulator,tweet){
@@ -26,10 +26,9 @@
         return '<ul>' + tweets + '</ul>';
       }
 
-      //Returns string of the tweet to be passed to jQuery for addition to the page; if timeline, tweet will have hidden drop down timeline for user 
-      function formatTweet(tweet,timeline) {
-          var userTweets = (timeline ? formatUserTweets(tweet.user) : '')
-          var user = ('@' + tweet.user + ': ' + userTweets) //the list of other tweets to be hidden will also go here
+      //Returns string of the tweet to be passed to jQuery for addition to the page
+      function formatTweet(tweet) {
+          var user = ('@' + tweet.user + ': ') //the list of other tweets to be hidden will also go here
           var date = prettyifyDate(tweet.created_at)
           var tweet = '<section><h2>' + user + '</h2><p>' + tweet.message + '</p><h4>' + date + '</h4></section>';
           return tweet;
@@ -42,26 +41,28 @@
         var index = streams.home.length - 1; //setting up movement in reverse chronological order
         while(index >= 0){
           var tweet = streams.home[index];
-          var $tweet = $(formatTweet(tweet,true));
+          var $tweet = $(formatTweet(tweet));
           $tweet.appendTo($body);
           index -= 1;
         }
       
-        var storedLatestTweet = streams.home[streams.home.length - 1]
+        /*var storedLatestTweet = streams.home[streams.home.length - 1]
         var checkForNewTweet = function() {
           var currentLatestTweet = streams.home[streams.home.length - 1]
           if (storedLatestTweet != currentLatestTweet){
-            $currentLatestTweet = $(formatTweet(currentLatestTweet,true));
+            $currentLatestTweet = $(formatTweet(currentLatestTweet));
             $currentLatestTweet.prependTo($body);
             storedLatestTweet = currentLatestTweet;
           }
-          setTimeout(checkForNewTweet,100);
+          setTimeout(checkForNewTweet,3000);
         }
-        setTimeout(checkForNewTweet,100); 
+        setTimeout(checkForNewTweet,3000);*/
         // I should have just called the function to add the new tweet  in the other file 
         //every time a new tweet is generated; not sure why I didn't just do that
         $('h2').on('click',function(){
-          $('ul').slideToggle();
+          var username = $(this).text().slice(1,-2)
+          console.log(username);
+          $(this).closest('section').append($(formatUserTweets(username))); 
         });
       })
     </script>
